@@ -44,6 +44,8 @@ const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeou
 
   fastify.register(userRoutes, { prefix: '/user' });
 
+  fastify.setNotFoundHandler((request, reply) => reply.status(404).send({ msg: 'API path Not found' }));
+
   fastify.listen({ port: process.env.PORT }, (err, address) => {
     if (err) {
       fastify.log.error('Error starting server:', err.message);
