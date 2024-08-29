@@ -1,11 +1,11 @@
 import { build } from 'esbuild';
 
 build({
-  entryPoints: ['server.js'],
+  entryPoints: ['src/server.js'],
   bundle: true,
   minify: true,
-  outfile: 'dist/bundle.js',
+  outfile: 'dist/bundle.cjs',
   platform: 'node',
   target: 'node16',
-  format: 'esm',
+  format: 'cjs',
 }).catch(() => process.exit(1));
