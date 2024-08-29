@@ -1,16 +1,22 @@
 import cors from '@fastify/cors';
+import fastifyJwt from '@fastify/jwt';
 import rateLimit from "@fastify/rate-limit";
+import 'dotenv/config';
 import Fastify from "fastify";
 
-const fastify = Fastify({ logger: true });
+const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
 fastify.register(cors, {
   origin: '*',
   methods: ['GET', 'POST'],
 });
 
+fastify.register(fastifyJwt, {
+  secret: process.env.SECRET_KEY
+});
+
 await fastify.register(rateLimit, {
-  max: 5,
+  max: 10,
   timeWindow: '1 minute',
   cache: 1000,
   onLimitExceeded: (request, reply) => reply.status(429).send({
@@ -24,6 +30,22 @@ await fastify.register(rateLimit, {
   }
 });
 
+fastify.addHook('onRequest', async (request, reply) => {
+  if (request.url !== "/login") {
+    try {
+      await request.jwtVerify();
+    } catch (err) {
+      fastify.log.error(err);
+      reply.send(err);
+    }
+  }
+});
+
+fastify.post('/login', (request, reply) => {
+  const token = fastify.jwt.sign({ payload: request.body });
+  reply.send({ token });
+});
+
 fastify.get('/', async (request, reply) => reply.status(200).send('Hello World!'));
 
 fastify.post('/home', async (request, reply) => {
@@ -34,7 +56,7 @@ fastify.post('/home', async (request, reply) => {
   });
 });
 
-fastify.listen({ port: 3000 }, (err, address) => {
+fastify.listen({ port: process.env.PORT }, (err, address) => {
   if (err) {
     fastify.log.error('Error starting server:', err.message);
     process.exit(1);
