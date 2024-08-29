@@ -1,4 +1,5 @@
 import cors from '@fastify/cors';
+import helmet from "@fastify/helmet";
 import fastifyJwt from '@fastify/jwt';
 import rateLimit from "@fastify/rate-limit";
 import 'dotenv/config';
@@ -9,6 +10,7 @@ import userRoutes from './route/user.route.js';
 const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
 (async () => {
+  fastify.register(helmet, { contentSecurityPolicy: false });
   fastify.register(cors, {
     origin: '*',
     methods: ['GET', 'POST'],
