@@ -1,0 +1,2 @@
+export const getUser = async (request, reply) => reply.status(200).send(`Hello ${request.user.name}`);
+export const getUserId = async (request, reply) => reply.status(200).send(`ID: ${request.params.id}`);

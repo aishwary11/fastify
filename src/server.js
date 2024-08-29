@@ -4,6 +4,7 @@ import rateLimit from "@fastify/rate-limit";
 import 'dotenv/config';
 import Fastify from "fastify";
 import jwtAuth from './middleware/jwtauth.js';
+import userRoutes from './route/user.route.js';
 
 const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
@@ -41,13 +42,7 @@ const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeou
 
   fastify.get('/', async (request, reply) => reply.status(200).send(`Hello ${request.user.name}, position ${request.user.designation}`));
 
-  fastify.post('/home', async (request, reply) => {
-    fastify.log.info(`Request body received: ${JSON.stringify(request.body)}`);
-    return reply.status(200).send({
-      message: 'Success',
-      data: request.body
-    });
-  });
+  fastify.register(userRoutes, { prefix: '/user' });
 
   fastify.listen({ port: process.env.PORT }, (err, address) => {
     if (err) {

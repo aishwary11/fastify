@@ -8,5 +8,4 @@ const jwtAuth = async (request, reply) => {
     }
   }
 };
-
-export default jwtAuth;
+export default jwtAuth
