@@ -5,7 +5,9 @@ build({
   bundle: true,
   minify: true,
   outfile: 'dist/bundle.cjs',
+  color: true,
+  sourcemap: false,
   platform: 'node',
-  target: 'node16',
+  target: 'es2020',
   format: 'cjs',
 }).catch(() => process.exit(1));

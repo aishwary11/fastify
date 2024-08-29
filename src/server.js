@@ -39,7 +39,7 @@ const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeou
     reply.status(200).send(token);
   });
 
-  fastify.get('/', async (request, reply) => reply.status(200).send(`Hello ${request.user.name}`));
+  fastify.get('/', async (request, reply) => reply.status(200).send(`Hello ${request.user.name}, position ${request.user.designation}`));
 
   fastify.post('/home', async (request, reply) => {
     fastify.log.info(`Request body received: ${JSON.stringify(request.body)}`);
