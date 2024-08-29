@@ -3,9 +3,8 @@ const jwtAuth = async (request, reply) => {
     try {
       await request.jwtVerify();
     } catch (err) {
-      fastify.log.error(err);
       reply.send(err);
     }
   }
 };
-export default jwtAuth
+export default jwtAuth;
