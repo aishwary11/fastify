@@ -1,9 +1,11 @@
+import responseHelper from "../helper/responsehelper.js";
+
 const jwtAuth = async (request, reply) => {
-  if (request.url !== "/login" || request.url !== "/register") {
+  if (request.url !== "/login" && request.url !== "/register") {
     try {
       await request.jwtVerify();
     } catch (err) {
-      reply.status(401).send({ msg: "Token is invalid" });
+      responseHelper(reply, 401, "Token is invalid");
     }
   }
 };

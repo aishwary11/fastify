@@ -1,2 +1,4 @@
-export const getUser = async (request, reply) => reply.status(200).send(`Hello ${request.user.name}`);
-export const getUserId = async (request, reply) => reply.status(200).send(`ID: ${request.params.id}`);
+import responseHelper from "../helper/responsehelper.js";
+
+export const getUser = async (request, reply) => responseHelper(reply, 200, `Hello ${request.user.name}`);
+export const getUserId = async (request, reply) => responseHelper(reply, 200, `ID: ${request.params.id}`);
