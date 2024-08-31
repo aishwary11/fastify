@@ -1,17 +1,19 @@
 import cors from '@fastify/cors';
 import helmet from "@fastify/helmet";
 import fastifyJwt from '@fastify/jwt';
-import rateLimit from "@fastify/rate-limit";
 import 'dotenv/config';
 import Fastify from "fastify";
 import jwtAuth from './middleware/jwtauth.js';
+import rateLimitMiddleware from './middleware/ratelimit.js';
 import userRoutes from './route/user.route.js';
 import { HTTP_STATUS_CODE } from './utils/constant.js';
+import connectDB from './utils/db.js';
 import responseHelper from './utils/responsehelper.js';
 
 const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
 (async () => {
+  await connectDB();
   fastify.register(helmet, { contentSecurityPolicy: false });
   fastify.register(cors, {
     origin: '*',
@@ -22,18 +24,7 @@ const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeou
     secret: process.env.SECRET_KEY
   });
 
-  await fastify.register(rateLimit, {
-    max: 10,
-    timeWindow: '1 minute',
-    cache: 1000,
-    onLimitExceeded: (request, reply) => responseHelper(reply, HTTP_STATUS_CODE.TOO_MANY_REQUESTS, 'Too many requests, please try again later.'),
-    addHeaders: {
-      'x-ratelimit-limit': true,
-      'x-ratelimit-remaining': true,
-      'x-ratelimit-reset': true,
-      'retry-after': true
-    }
-  });
+  await rateLimitMiddleware(fastify);
 
   fastify.addHook('onRequest', jwtAuth);
 
@@ -43,8 +34,8 @@ const fastify = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeou
   });
 
   fastify.get('/', async (request, reply) => {
-    const { name, designation } = request.user;
-    return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}, position ${designation}`);
+    const { name, email } = request.user;
+    return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}, Email ${email}`);
   });
 
   fastify.register(userRoutes, { prefix: '/user' });
