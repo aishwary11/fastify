@@ -1,6 +1,6 @@
 import { getUser, getUserId } from "../controller/user.controller.js";
-
-export default async function userRoutes(fastify) {
+const userRoutes = async (fastify) => {
   fastify.get('/', getUser);
-  fastify.get('/:id', getUserId)
-}
+  fastify.get('/:id', getUserId);
+};
+export default userRoutes;
