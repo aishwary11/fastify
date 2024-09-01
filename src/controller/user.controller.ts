@@ -8,6 +8,6 @@ export const getUser = async (request: FastifyRequest, reply: FastifyReply) => {
 };
 
 export const getUserId = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { id } = request.params as { id: string; };
+  const { id } = request.params as { id: string };
   return responseHelper(reply, HTTP_STATUS_CODE.OK, `ID: ${id}`);
 };

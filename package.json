@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx tsx watch src/server.ts",
-    "build": "rm -rf dist && node build.js",
+    "build": "rm -rf dist && npx tsx build.ts",
     "start": "node dist/bundle.cjs",
     "prettier": "prettier --write .",
     "prebuild": "yarn run prettier"
