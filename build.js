@@ -1,7 +1,7 @@
 import { build } from 'esbuild';
 
 build({
-  entryPoints: ['src/server.js'],
+  entryPoints: ['src/server.ts'],
   bundle: true,
   minify: true,
   outfile: 'dist/bundle.cjs',

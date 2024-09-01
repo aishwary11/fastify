@@ -5,9 +5,11 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/server.js",
+    "dev": "npx tsx watch src/server.ts",
     "build": "rm -rf dist && node build.js",
-    "start": "node dist/bundle.cjs"
+    "start": "node dist/bundle.cjs",
+    "prettier": "prettier --write .",
+    "prebuild": "yarn run prettier"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
@@ -19,6 +21,8 @@
     "mongoose": "^8.6.0"
   },
   "devDependencies": {
-    "esbuild": "^0.23.1"
+    "@types/node": "^22.5.2",
+    "esbuild": "^0.23.1",
+    "prettier": "^3.3.3"
   }
 }

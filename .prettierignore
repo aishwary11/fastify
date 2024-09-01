@@ -1,0 +1,8 @@
+dist
+.vscode
+.next
+package-lock.json
+.prettierrc
+README.md
+yarn.lock
+.nmprc
