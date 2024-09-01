@@ -7,7 +7,7 @@ export const getUser = async (request: FastifyRequest, reply: FastifyReply) => {
   return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}`);
 };
 
-export const getUserId = async (request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
-  const { id } = request.params;
+export const getUserId = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id } = request.params as { id: string; };
   return responseHelper(reply, HTTP_STATUS_CODE.OK, `ID: ${id}`);
 };
