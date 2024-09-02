@@ -19,24 +19,17 @@ const fastify: FastifyInstance = Fastify({ logger: true, keepAliveTimeout: 5000,
     origin: '*',
     methods: ['GET', 'POST'],
   });
-
   fastify.register(fastifyJwt, {
     secret: process.env.SECRET_KEY!,
   });
-
   await rateLimitMiddleware(fastify);
-
   fastify.addHook('onRequest', jwtAuth);
-
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     const { name, email } = request.user as User;
     return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}, Email ${email}`);
   });
-
   fastify.register(userRoutes, { prefix: '/user' });
-
   fastify.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'Route not found'));
-
   fastify.listen({ port: Number(process.env.PORT) }, (err: Error | null, address: string) => {
     if (err) {
       fastify.log.error('Error starting server:', err.message);
