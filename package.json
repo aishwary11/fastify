@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "npx tsx watch src/server.ts",
     "build": "rm -rf dist && npx tsx build.ts",
