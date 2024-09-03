@@ -1,3 +1,6 @@
+import QRcode from 'qrcode';
+import speakeasy from 'speakeasy';
+
 export const HTTP_STATUS_CODE = {
   CONTINUE: 100,
   SWITCHING_PROTOCOLS: 101,
@@ -62,3 +65,23 @@ export const HTTP_STATUS_CODE = {
   NOT_EXTENDED: 510,
   NETWORK_AUTHENTICATION_REQUIRED: 511,
 };
+
+export const totpSecret = speakeasy.generateSecret({ name: 'Aishwary TOTP', length: 24 });
+export const verifyTokenTotp = (secret: string, totp: string) => speakeasy.totp.verify({ secret, encoding: 'base32', token: totp });
+export const generateQrCode = (secret: string): Promise<string> =>
+  new Promise((resolve, reject) => {
+    QRcode.toDataURL(
+      secret,
+      {
+        color: {
+          dark: '#ededed',
+          light: '#5b87b9',
+        },
+        errorCorrectionLevel: 'H',
+        type: 'image/jpeg',
+        margin: 1,
+        maskPattern: 4,
+      },
+      (err, url) => (err ? reject(err) : resolve(url)),
+    );
+  });

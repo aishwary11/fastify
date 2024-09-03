@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODE } from '@/utils/constant';
+import { HTTP_STATUS_CODE } from '@/common/constant';
 import rateLimit, { errorResponseBuilderContext, FastifyRateLimitOptions } from '@fastify/rate-limit';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 

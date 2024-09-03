@@ -2,13 +2,13 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import fastifyJwt from '@fastify/jwt';
 import 'dotenv/config';
-import Fastify, { FastifyReply, FastifyRequest, FastifyInstance } from 'fastify';
+import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { HTTP_STATUS_CODE } from './common/constant';
+import connectDB from './common/utils/db';
+import responseHelper from './common/utils/responsehelper';
 import jwtAuth from './middleware/jwtauth';
 import rateLimitMiddleware from './middleware/ratelimit';
 import userRoutes from './route/user.route';
-import { HTTP_STATUS_CODE } from './utils/constant';
-import connectDB from './utils/db';
-import responseHelper from './utils/responsehelper';
 
 const fastify: FastifyInstance = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
