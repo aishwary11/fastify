@@ -8,7 +8,7 @@ import connectDB from './common/utils/db';
 import responseHelper from './common/utils/responsehelper';
 import jwtAuth from './middleware/jwtauth';
 import rateLimitMiddleware from './middleware/ratelimit';
-import userRoutes from './route/user.route';
+import userRoutes from './routes/user.route';
 
 const fastify: FastifyInstance = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
