@@ -24,10 +24,6 @@ const fastify: FastifyInstance = Fastify({ logger: true, keepAliveTimeout: 5000,
   });
   await rateLimitMiddleware(fastify);
   fastify.addHook('onRequest', jwtAuth);
-  fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
-    const { name, email } = request.user as User;
-    return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}, Email ${email}`);
-  });
   fastify.register(userRoutes, { prefix: '/user' });
   fastify.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'Route not found'));
   fastify.listen({ port: Number(process.env.PORT) }, (err: Error | null, address: string) => {

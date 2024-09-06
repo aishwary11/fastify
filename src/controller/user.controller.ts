@@ -3,21 +3,21 @@ import responseHelper from '@/common/utils/responsehelper';
 import UserModel from '@/models/user';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
+export const getUser = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { name } = request.user as User;
+  return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}`);
+};
+
+export const getUserId = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id } = request.params as { id: string };
+  return responseHelper(reply, HTTP_STATUS_CODE.OK, `ID: ${id}`);
+};
+
 export const signIn = async (request: FastifyRequest, reply: FastifyReply) => {
   const { name, email } = request.body as User;
   const isUser = await UserModel.findOne({ name, email });
   if (!isUser) return responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'User not found');
   return responseHelper(reply, HTTP_STATUS_CODE.OK, 'Login successful', { name, email });
-};
-
-export const verifyTotp = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { name, email, otp } = request.body as User & { otp: string };
-  const isUser = await UserModel.findOne({ name, email });
-  if (!isUser) return responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'User not found');
-  const verifyOtp = verifyTokenTotp(isUser.secret, otp);
-  if (!verifyOtp) return responseHelper(reply, HTTP_STATUS_CODE.UNAUTHORIZED, 'Invalid TOTP');
-  const token = request.server.jwt.sign({ name, email }, { expiresIn: '1d' });
-  return responseHelper(reply, HTTP_STATUS_CODE.OK, 'Verify TOTP successful', { token });
 };
 
 export const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -31,12 +31,12 @@ export const signUp = async (request: FastifyRequest, reply: FastifyReply) => {
   return reply.status(HTTP_STATUS_CODE.CREATED).send(`<img src="${qrcode}">`);
 };
 
-export const getUser = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { name } = request.user as User;
-  return responseHelper(reply, HTTP_STATUS_CODE.OK, `Hello ${name}`);
-};
-
-export const getUserId = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { id } = request.params as { id: string };
-  return responseHelper(reply, HTTP_STATUS_CODE.OK, `ID: ${id}`);
+export const verifyTotp = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { name, email, otp } = request.body as User & { otp: string };
+  const isUser = await UserModel.findOne({ name, email });
+  if (!isUser) return responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'User not found');
+  const verifyOtp = verifyTokenTotp(isUser.secret, otp);
+  if (!verifyOtp) return responseHelper(reply, HTTP_STATUS_CODE.UNAUTHORIZED, 'Invalid TOTP');
+  const token = request.server.jwt.sign({ name, email }, { expiresIn: '1d' });
+  return responseHelper(reply, HTTP_STATUS_CODE.OK, 'Verify TOTP successful', { token });
 };
