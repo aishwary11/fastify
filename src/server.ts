@@ -12,25 +12,31 @@ import userRoutes from './routes/user.route';
 
 const fastify: FastifyInstance = Fastify({ logger: true, keepAliveTimeout: 5000, connectionTimeout: 5000 });
 
+fastify.register(helmet, { contentSecurityPolicy: false });
+fastify.register(cors, {
+  origin: '*',
+  methods: ['GET', 'POST'],
+});
+
 (async () => {
-  await connectDB();
-  fastify.register(helmet, { contentSecurityPolicy: false });
-  fastify.register(cors, {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  });
-  fastify.register(fastifyJwt, {
-    secret: process.env.SECRET_KEY!,
-  });
-  await rateLimitMiddleware(fastify);
-  fastify.addHook('onRequest', jwtAuth);
-  fastify.register(userRoutes, { prefix: '/user' });
-  fastify.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'Route not found'));
-  fastify.listen({ port: Number(process.env.PORT) }, (err: Error | null, address: string) => {
-    if (err) {
-      fastify.log.error('Error starting server:', err.message);
-      process.exit(1);
-    }
-    fastify.log.info(`Server listening on ${address}`);
-  });
+  try {
+    await connectDB();
+    await rateLimitMiddleware(fastify);
+    fastify.register(fastifyJwt, {
+      secret: process.env.SECRET_KEY!,
+    });
+    fastify.addHook('onRequest', jwtAuth);
+    fastify.register(userRoutes, { prefix: '/user' });
+    fastify.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'Route not found'));
+    fastify.listen({ port: Number(process.env.PORT) }, (err: Error | null, address: string) => {
+      if (err) {
+        fastify.log.error('Error starting server:', err.message);
+        process.exit(1);
+      }
+      fastify.log.info(`Server listening on ${address}`);
+    });
+  } catch (err: Error | any) {
+    fastify.log.error(err, err.message);
+    process.exit(1);
+  }
 })();

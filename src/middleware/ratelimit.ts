@@ -7,18 +7,11 @@ const rateLimitMiddleware = async (fastify: FastifyInstance): Promise<void> => {
     max: 5,
     timeWindow: '1 minute',
     cache: 1000,
-    addHeaders: {
-      'x-ratelimit-limit': true,
-      'x-ratelimit-remaining': true,
-      'x-ratelimit-reset': true,
-      'retry-after': true,
-    },
-    errorResponseBuilder: (req: FastifyRequest, context: errorResponseBuilderContext) => ({
+    errorResponseBuilder: (req: FastifyRequest, { max, after, ttl }: errorResponseBuilderContext) => ({
       statusCode: HTTP_STATUS_CODE.TOO_MANY_REQUESTS,
       error: 'Too Many Requests',
-      message: `I only allow ${context.max} requests per ${context.after} to this Website. Try again soon.`,
-      date: Date.now(),
-      expiresIn: context.ttl,
+      message: `I only allow ${max} requests per ${after} to this Website. Try again soon.`,
+      expiresIn: ttl,
       status: false,
     }),
   };
