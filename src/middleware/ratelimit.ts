@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 
 const rateLimitMiddleware = async (fastify: FastifyInstance): Promise<void> => {
   const options: FastifyRateLimitOptions = {
-    max: 5,
+    max: 10,
     timeWindow: '1 minute',
     cache: 1000,
     errorResponseBuilder: (req: FastifyRequest, { max, after, ttl }: errorResponseBuilderContext) => ({
