@@ -32,20 +32,18 @@ const startServer = async () => {
     fastify.register(fastifyJwt, { secret: process.env.SECRET_KEY! });
     fastify.ready().then(() => {
       fastify.io.on('connection', socket => {
-        console.log('Client connected:', socket.id);
-        socket.on('disconnect', () => console.log('Client disconnected:', socket.id));
+        fastify.log.info('Client connected:', socket.id);
+        socket.on('disconnect', () => fastify.log.info('Client disconnected:', socket.id));
         socket.on('message', msg => {
-          console.log('Message received:', msg);
+          fastify.log.info('Message received:', msg);
           fastify.io.emit('message', msg);
         });
       });
     });
-
     fastify.addHook('onRequest', jwtAuth);
     fastify.register(userRoutes, { prefix: '/user' });
 
     fastify.setNotFoundHandler((request: FastifyRequest, reply: FastifyReply) => responseHelper(reply, HTTP_STATUS_CODE.NOT_FOUND, 'Route not found'));
-
     await fastify.listen({ port: Number(process.env.PORT) });
     fastify.log.info(`Server listening on port ${process.env.PORT}`);
   } catch (error) {
