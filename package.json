@@ -19,7 +19,7 @@
     "fastify": "^4.28.1",
     "fastify-socket.io": "^5.1.0",
     "fastify-totp": "^1.0.0",
-    "mongoose": "^8.6.1",
+    "mongoose": "^8.6.2",
     "qrcode": "^1.5.4",
     "socket.io": "^4.7.5",
     "speakeasy": "^2.0.0",
