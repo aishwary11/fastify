@@ -1,9 +1,9 @@
 import { HTTP_STATUS_CODE } from '@/common/constant';
-import rateLimit, { errorResponseBuilderContext, FastifyRateLimitOptions } from '@fastify/rate-limit';
+import rateLimit, { errorResponseBuilderContext } from '@fastify/rate-limit';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
 const rateLimitMiddleware = async (fastify: FastifyInstance): Promise<void> => {
-  const options: FastifyRateLimitOptions = {
+  await fastify.register(rateLimit, {
     max: 10,
     timeWindow: '1 minute',
     cache: 1000,
@@ -14,8 +14,7 @@ const rateLimitMiddleware = async (fastify: FastifyInstance): Promise<void> => {
       expiresIn: ttl,
       status: false,
     }),
-  };
-  await fastify.register(rateLimit, options);
+  });
 };
 
 export default rateLimitMiddleware;
