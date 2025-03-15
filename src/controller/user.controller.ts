@@ -1,7 +1,7 @@
-import { generateQrCode, HTTP_STATUS_CODE, totpSecret, verifyTokenTotp } from '@/common/constant';
-import responseHelper from '@/common/utils/responsehelper';
-import UserModel from '@/models/user';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { generateQrCode, HTTP_STATUS_CODE, totpSecret, verifyTokenTotp } from '../common/constant';
+import responseHelper from '../common/utils/responsehelper';
+import UserModel from '../models/user';
 
 export const getUser = async (request: FastifyRequest, reply: FastifyReply) => {
   const { name } = request.user as User;

@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "target": "ESNext",
     "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "strict": true,
     "alwaysStrict": true,
     "skipLibCheck": true,
-    "rootDirs": ["src"],
     "types": ["node"],
     "outDir": "dist",
-    "rootDir": "src",
-    "baseUrl": ".",
+    // "rootDir": "src",
+    // "baseUrl": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
@@ -22,10 +23,10 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "noPropertyAccessFromIndexSignature": false
+    // "paths": {
+    //   "@/*": ["src/*"]
+    // }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

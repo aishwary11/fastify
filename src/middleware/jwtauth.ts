@@ -1,7 +1,7 @@
-import { HTTP_STATUS_CODE } from '@/common/constant';
-import responseHelper from '@/common/utils/responsehelper';
-import UserModel from '@/models/user';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { HTTP_STATUS_CODE } from '../common/constant';
+import responseHelper from '../common/utils/responsehelper';
+import UserModel from '../models/user';
 
 const jwtAuth = async (request: FastifyRequest, reply: FastifyReply) => {
   const publicApis = ['/user/signin', '/user/signup', '/user/verify-totp'];

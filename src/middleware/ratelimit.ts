@@ -1,6 +1,6 @@
-import { HTTP_STATUS_CODE } from '@/common/constant';
 import rateLimit, { errorResponseBuilderContext } from '@fastify/rate-limit';
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { HTTP_STATUS_CODE } from '../common/constant';
 
 const rateLimitMiddleware = async (fastify: FastifyInstance): Promise<void> => {
   await fastify.register(rateLimit, {
