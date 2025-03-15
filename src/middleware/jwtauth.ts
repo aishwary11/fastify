@@ -9,7 +9,9 @@ const jwtAuth = async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const { name, email }: User = await request.jwtVerify();
       const user = await UserModel.findOne({ name, email });
-      if (!user) return responseHelper(reply, HTTP_STATUS_CODE.UNAUTHORIZED, 'User not found');
+      if (!user) {
+        return responseHelper(reply, HTTP_STATUS_CODE.UNAUTHORIZED, 'User not found');
+      }
     } catch (err) {
       return responseHelper(reply, HTTP_STATUS_CODE.UNAUTHORIZED, 'Token is invalid');
     }
