@@ -1,35 +1,32 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "declaration": false,
-    "moduleResolution": "Node",
-    "removeComments": true,
-    "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "target": "ESNext",
-    "noEmitOnError": true,
-    "rootDir": "./src",
-    "sourceMap": false,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": false,
-    "downlevelIteration": true,
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "allowJs": false,
+    "module": "NodeNext",
     "strict": true,
     "alwaysStrict": true,
-    "isolatedModules": true,
-    "strictBindCallApply": false,
+    "skipLibCheck": true,
+    "rootDirs": ["src"],
+    "types": ["node"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": false
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "exclude": ["node_modules", "dist"],
-  "include": ["src"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

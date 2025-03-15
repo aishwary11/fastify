@@ -10,9 +10,11 @@ export default function zodValidation(schema: AnyZodObject) {
       done();
     } catch (error) {
       if (error instanceof ZodError) {
-        return responseHelper(reply, HTTP_STATUS_CODE.BAD_REQUEST, `${error.errors[0].path[0]} is ${error.errors[0].message}`);
+        responseHelper(reply, HTTP_STATUS_CODE.BAD_REQUEST, `${error.errors[0]?.path[0]} is ${error.errors[0]?.message || 'invalid'}`);
+      } else {
+        responseHelper(reply, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal Server Error');
       }
-      return responseHelper(reply, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+      done();
     }
   };
 }
