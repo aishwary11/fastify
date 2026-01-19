@@ -64,24 +64,16 @@ export const HTTP_STATUS_CODE = {
   LOOP_DETECTED: 508,
   NOT_EXTENDED: 510,
   NETWORK_AUTHENTICATION_REQUIRED: 511,
-};
+} as const;
 
 export const totpSecret = speakeasy.generateSecret({ name: 'Aishwary TOTP', length: 24 });
 export const verifyTokenTotp = (secret: string, totp: string) => speakeasy.totp.verify({ secret, encoding: 'base32', token: totp });
-export const generateQrCode = (secret: string): Promise<string> =>
-  new Promise((resolve, reject) => {
-    QRcode.toDataURL(
-      secret,
-      {
-        color: {
-          dark: '#ededed',
-          light: '#5b87b9',
-        },
-        errorCorrectionLevel: 'H',
-        type: 'image/jpeg',
-        margin: 1,
-        maskPattern: 4,
-      },
-      (err, url) => (err ? reject(err) : resolve(url)),
-    );
+export const generateQrCode = async (secret: string): Promise<string> => {
+  return QRcode.toDataURL(secret, {
+    color: { dark: '#ededed', light: '#5b87b9' },
+    errorCorrectionLevel: 'H',
+    type: 'image/jpeg',
+    margin: 1,
+    maskPattern: 4,
   });
+};

@@ -2,11 +2,13 @@ import { FastifyInstance } from 'fastify';
 import zodValidation from '../common/utils/zodvalidation';
 import { userSchema } from '../common/validation/user.validation';
 import { getUser, getUserId, signIn, signUp, verifyTotp } from '../controller/user.controller';
-const userRoutes = async (fastify: FastifyInstance) => {
+
+const userRoutes = async (fastify: FastifyInstance): Promise<void> => {
   fastify.get('/', getUser);
   fastify.get('/:id', getUserId);
   fastify.post('/signin', { preValidation: [zodValidation(userSchema)] }, signIn);
   fastify.post('/signup', { preValidation: [zodValidation(userSchema)] }, signUp);
   fastify.post('/verify-totp', verifyTotp);
 };
+
 export default userRoutes;
